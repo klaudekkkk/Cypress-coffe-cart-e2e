@@ -24,3 +24,11 @@ describe("Navigation with no products in cart", () => {
         cy.url().should("include", "/cart"); //go to menu page
     });
 })
+describe("Navigation with products in cart", () => {
+    beforeEach(() => {
+        cy.visit("/");
+    });
+    it("should navigate from menu to cart page with visible one product", () => {
+        cy.getByData("Espresso").click(); //add product to cart
+    })
+})

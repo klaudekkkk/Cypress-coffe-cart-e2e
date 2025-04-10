@@ -24,7 +24,7 @@ describe("home page", () => {
         });
     })
     it("button checkout is visible", () => {
-        cy.get('[data-test="checkout"]').should('be.visible');
+        cy.getByData("checkout").should('be.visible');
     })
 
 })
