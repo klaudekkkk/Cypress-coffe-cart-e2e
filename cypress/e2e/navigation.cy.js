@@ -32,8 +32,10 @@ describe("Navigation with products in cart", () => {
         cy.getByData("Espresso").click(); //add product to cart
         cy.getByNavElement('cart').contains('1').click()//click on cart with 1 product
         cy.url().should("include", "/cart"); //go to cart page
-        cy.getByNavElement('cart').contains('1') // check if in nav cart has 1 product
+        cy.getByNavElement('cart').contains('1').should('have.class', 'router-link-active'); // check if in nav cart has 1 product
         cy.getByNavElement('menu').contains('menu').click() //click on menu
+        cy.url().should("include", "/"); //go to menu page
+        cy.getByNavElement('menu').contains('menu').should('have.class', 'router-link-active'); // check if in nav cart has 1 product
         cy.getByNavElement('cart').contains('1') // check if in nav cart has 1 product
     })
 })
