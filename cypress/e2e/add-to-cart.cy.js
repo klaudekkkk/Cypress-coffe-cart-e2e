@@ -28,7 +28,7 @@ it("should add two the same products", () => {
         cy.url().should("include", "/cart"); //go to cart page
         cy.get('li[data-v-8965af83=""]').should('have.length', 3) //check if the cart has 2 products firs li is header
     })
-    it.only("should add all products to cart", () => {
+    it("should add all products to cart", () => {
             const coffeeTypes = [
                 "Espresso",
                 "Espresso_Macchiato",
