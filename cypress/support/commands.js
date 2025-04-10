@@ -27,3 +27,16 @@
 Cypress.Commands.add("getByData", (selector, ...args) => {
     return cy.get(`[data-test=${selector}]`, ...args)
 })
+Cypress.Commands.add("getByNavElement", (selector, ...args) => {
+    const navElements = {
+        menu: 1,
+        cart: 2,
+        github: 3
+    }
+    const index = navElements[selector]
+    console.log(index)
+    if (!index) {
+        throw new Error(`No such nav element: ${selector}`)
+    }
+    return cy.get(`:nth-child(${index}) > a`, ...args)
+})
