@@ -52,7 +52,7 @@ describe('Payment form in cart page', () => {
                 .invoke('prop', 'validationMessage')
                 .should('be.oneOf', [
                     'Uwzględnij znak „@” w adresie e-mail. W adresie „invalid-email” brakuje znaku „@”.',
-                    "Please include an \\'@\\' in the email address. \\'invalid-email\\' is missing an \\'@\\'."
+                    "Please include an '@' in the email address. 'invalid-email' is missing an '@'."
                 ])
         })
     })
@@ -105,7 +105,7 @@ describe('Payment modal form in menu page', () => {
             cy.get('#email:invalid').invoke('prop', 'validationMessage')
                 .should('be.oneOf', [
                     'Uwzględnij znak „@” w adresie e-mail. W adresie „invalid-email” brakuje znaku „@”.',
-                    "Please include an \\'@\\' in the email address. \\'invalid-email\\' is missing an \\'@\\'."
+                    "Please include an '@' in the email address. 'invalid-email' is missing an '@'."
                 ])
         })
     })
