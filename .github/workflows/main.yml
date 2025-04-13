@@ -1,42 +1,30 @@
-name: E2E Tests
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
+name: Cypress Tests ci
+on: [push]
 jobs:
   cypress-run:
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-22.04
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      # https://github.com/cypress-io/github-action
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
+      # after the test run completes
+      # store videos and any screenshots
+      # NOTE: screenshots will be generated only if E2E test failed
+      # thus we store screenshots only on failures
+      # Alternative: create and commit an empty cypress/screenshots folder
+      # to always have something to upload
+      - uses: actions/upload-artifact@v3
+        if: failure()
         with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Start application
-        run: npm start &
-        env:
-          CI: true
-
-      - name: Wait for application to be ready
-        uses: jakejarvis/wait-action@v1
+          name: cypress-screenshots
+          path: cypress/screenshots
+      # Test run video was always captured, so this action uses "always()" condition
+      - uses: actions/upload-artifact@v3
+        if: always()
         with:
-          url: 'http://localhost:3000'
-
-      - name: Run Cypress tests
-        uses: cypress-io/github-action@v3
-        with:
-          browser: chrome
-          start: npm start
-          wait-on: 'http://localhost:3000'
+          name: cypress-videos
+          path: cypress/videos
