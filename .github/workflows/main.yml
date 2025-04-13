@@ -1,20 +1,42 @@
-name: E2E on Chrome
+name: E2E Tests
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  install:
+  cypress-run:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
 
-      - name: Cypress run
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start application
+        run: npm start &
+        env:
+          CI: true
+
+      - name: Wait for application to be ready
+        uses: jakejarvis/wait-action@v1
+        with:
+          url: 'http://localhost:3000'
+
+      - name: Run Cypress tests
         uses: cypress-io/github-action@v3
         with:
-          project: ./site
           browser: chrome
-          build: yarn build
-          start: yarn start
-          wait-on: "http://localhost:3000"
-
+          start: npm start
+          wait-on: 'http://localhost:3000'
