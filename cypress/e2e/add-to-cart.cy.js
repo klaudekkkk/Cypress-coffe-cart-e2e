@@ -20,6 +20,8 @@ it("should add two the same products", () => {
     cy.url().should("include", "/cart"); //go to cart page
     cy.get('li[data-v-8965af83=""]').should('have.length', 2) //check if the cart has 1 products firs li is header
     cy.get(':nth-child(2) > .unit-desc').contains("x 2").should("be.visible"); //check if the price is correct
+    cy.get(':nth-child(2) > .unit-desc').contains("$10.00 x 2").should("be.visible");
+    cy.get('.list-item > :nth-child(3)').contains("$20.00").should("be.visible");
 })
     it("should add two different products", () => {
         cy.getByData("Espresso").click(); //add product to cart
