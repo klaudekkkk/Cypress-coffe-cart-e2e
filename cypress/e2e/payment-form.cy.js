@@ -4,7 +4,6 @@ const CommonSteps = () => {
     cy.getByNavElement('cart').contains('2').click()
     cy.url().should("include", "/cart");
     cy.getByData("checkout").should("be.visible").click();
-
 }
 
 describe('Payment form in cart page', () => {
@@ -36,7 +35,7 @@ describe('Payment form in cart page', () => {
         it('should show error message for empty name field', () => {
             cy.get('#email').type('samplemail@mail.com');
             cy.get('#submit-payment').click();
-            cy.get('#name:invalid').invoke('prop', 'validationMessage').should('eq', 'Wypełnij to pole.')
+            cy.get('#name:invalid').invoke('prop', 'validationMessage').should('eq', 'Wypełnij to pole.').or('equal', 'Please fill out this field.')
         })
         it('should show error message for empty email field', () => {
             cy.get('#name').type('Zbigniew');
@@ -47,7 +46,9 @@ describe('Payment form in cart page', () => {
             cy.get('#name').type('Zbigniew');
             cy.get('#email').type('invalid-email');
             cy.get('#submit-payment').click();
-            cy.get('#email:invalid').invoke('prop', 'validationMessage').should('eq', 'Uwzględnij znak „@” w adresie e-mail. W adresie „invalid-email” brakuje znaku „@”.')
+            cy.get('#email:invalid').invoke('prop', 'validationMessage')
+                .should('eq', 'Uwzględnij znak „@” w adresie e-mail. W adresie „invalid-email” brakuje znaku „@”.')
+                .or('equal', "Please include an \\'@\\' in the email address. \\'invalid-email\\' is missing an \\'@\\'.v")
         })
     })
 })
